@@ -1,0 +1,39 @@
+
+server:
+  port: 8081  # You can use any 4-digit number like 9090, 8082, etc.
+
+spring:
+  kafka:
+    # --- Consumer Configuration ---
+    consumer:
+      # The address of your Kafka broker(s)
+      bootstrap-s ervers: localhost:9092
+
+      # Identifies the consumer group this instance belongs to;
+      # Kafka uses this to load balance messages across multiple instances
+      group-id: myGroup
+
+      # Defines what to do when there is no initial offset (e.g., a new group)
+      # 'earliest' means start reading from the very beginning of the topic
+      auto-offset-reset: earliest
+
+      # The class used to convert the message Key from bytes back into a JsonObject
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      # The class used to convert the message Value from bytes back into a JsonObject
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+        spring.json.trusted.packages: "*"  # Allows all packages, or use "com.learning.*"
+
+
+    # --- Producer Configuration ---
+    producer:
+      # The address of your Kafka broker(s) for sending messages
+      bootstrap-servers: localhost:9092
+
+      # The class used to convert the message Key from a JsonObject into bytes for the network
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      # The class used to convert the message Value from a JsonObject into bytes for the network
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
